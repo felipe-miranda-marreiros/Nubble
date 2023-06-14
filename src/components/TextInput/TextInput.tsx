@@ -9,7 +9,7 @@ import {$fontFamily, $fontSizes, Text} from '../Text/Text';
 import {useAppTheme} from '../../hooks/useAppTheme';
 import {ReactElement, useRef} from 'react';
 
-interface TextInputProps extends RNTextInputProps {
+export interface TextInputProps extends RNTextInputProps {
   label: string;
   errorMessage?: string;
   rightComponent?: ReactElement;
