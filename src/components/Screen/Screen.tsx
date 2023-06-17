@@ -29,21 +29,24 @@ export function Screen({
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Container backgroundColor={colors.background}>
-        <TouchableOpacityBox
-          onPress={navigate.goBack}
+        <Box
           paddingBottom="s24"
           paddingHorizontal="s24"
           style={{paddingTop: top, paddingBottom: bottom}}>
           {canGoBack && (
-            <Box flexDirection="row" mb="s24" alignItems="center">
+            <TouchableOpacityBox
+              onPress={navigate.goBack}
+              flexDirection="row"
+              mb="s24"
+              alignItems="center">
               <Icon name="arrowLeft" color="primary" />
               <Text preset="paragraphMedium" semiBold marginLeft="s8">
                 Voltar
               </Text>
-            </Box>
+            </TouchableOpacityBox>
           )}
           {children}
-        </TouchableOpacityBox>
+        </Box>
       </Container>
     </KeyboardAvoidingView>
   );

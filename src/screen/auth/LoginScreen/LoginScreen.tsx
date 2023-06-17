@@ -5,16 +5,36 @@ import {Screen} from '../../../components/Screen/Screen';
 import {PasswordInput} from '../../../components/PasswordInput/PasswordInput';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../routes/Routes';
+import {useForm, Controller} from 'react-hook-form';
+import {LoginFormType, loginSchema} from './loginSchema';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {FormTextInput} from '../../../components/Form/FormTextInput';
+import {FormPasswordInput} from '../../../components/Form/FormPasswordInput';
 
 type ScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>;
 
 export function LoginScreen({navigation}: ScreenProps) {
+  const {control, handleSubmit, formState} = useForm<LoginFormType>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
+    resolver: zodResolver(loginSchema),
+  });
+
+  console.log(formState.isValid);
+
   const navigateToSignUpScreen = () => {
     navigation.navigate('SignUpScreen');
   };
 
   const navigateToForgotPasswordScreen = () => {
     navigation.navigate('ForgotPasswordScreen');
+  };
+
+  const onSubmit = (data: LoginFormType) => {
+    console.log(data);
   };
 
   return (
@@ -25,14 +45,17 @@ export function LoginScreen({navigation}: ScreenProps) {
       <Text preset="paragraphLarge" mb="s40">
         Digite seu e-mail e senha para entrar
       </Text>
-      <TextInput
-        errorMessage="mensagem de erro"
+      <FormTextInput
+        control={control}
         label="E-mail"
-        placeholder="Digite o seu e-mail"
+        name="email"
+        placeholder="Digite seu e-mail"
         boxProps={{mb: 's20'}}
       />
-      <PasswordInput
+      <FormPasswordInput
+        control={control}
         label="Senha"
+        name="password"
         placeholder="Digite sua senha"
         boxProps={{mb: 's10'}}
       />
@@ -43,7 +66,12 @@ export function LoginScreen({navigation}: ScreenProps) {
         bold>
         Esqueci minha senha
       </Text>
-      <Button title="Entrar" mt="s48" />
+      <Button
+        disabled={!formState.isValid}
+        title="Entrar"
+        mt="s48"
+        onPress={handleSubmit(onSubmit)}
+      />
       <Button
         onPress={navigateToSignUpScreen}
         preset="outline"
