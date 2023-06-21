@@ -1,14 +1,16 @@
-import {Text} from '../../../components/Text/Text';
-import {Button} from '../../../components/Button/Button';
-import {Screen} from '../../../components/Screen/Screen';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../../routes/Routes';
-import {useResetNavigationSuccess} from '../../../hooks/useResetNavigationSuccess';
 import {useForm} from 'react-hook-form';
-import {FormTextInput} from '../../../components/Form/FormTextInput';
-import {FormPasswordInput} from '../../../components/Form/FormPasswordInput';
 import {SignUpFormType, signUpSchema} from './signUpSchema';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {RootStackParamList} from '@routes';
+import {useResetNavigationSuccess} from '@hooks';
+import {
+  Button,
+  FormPasswordInput,
+  FormTextInput,
+  Screen,
+  Text,
+} from '@components';
 
 type ScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpScreen'>;
 
@@ -57,7 +59,6 @@ export function SignUpScreen({navigation}: ScreenProps) {
         placeholder="Digite o seu nome completo"
         boxProps={{mb: 's20'}}
       />
-
       <FormTextInput
         control={control}
         label="E-mail"
@@ -65,7 +66,6 @@ export function SignUpScreen({navigation}: ScreenProps) {
         placeholder="Digite o seu e-mail"
         boxProps={{mb: 's20'}}
       />
-
       <FormPasswordInput
         label="Senha"
         name="password"
@@ -73,7 +73,6 @@ export function SignUpScreen({navigation}: ScreenProps) {
         placeholder="Digite sua senha"
         boxProps={{mb: 's48'}}
       />
-
       <Button
         onPress={handleSubmit(onSubmit)}
         disabled={!formState.isValid}

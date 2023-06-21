@@ -1,6 +1,14 @@
 {
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components": ["src/components"],
+      "@hooks": ["src/hooks"],
+      "@routes": ["src/routes"],
+      "@screens": ["src/screens"],
+      "@theme": ["src/theme"]
+    }
   },
   "extends": "@tsconfig/react-native/tsconfig.json"
 }

@@ -1,7 +1,5 @@
 import {EyeOnIcon} from '../../assets/icons/EyeOnIcon';
 import {EyeOffIcon} from '../../assets/icons/EyeOffIcon';
-import {ThemeColors} from '../../theme/theme';
-import {useAppTheme} from '../../hooks/useAppTheme';
 import {ArrowLeftIcon} from '../../assets/icons/ArrowLeftIcon';
 import {ArrowRightIcon} from '../../assets/icons/ArrowRightIcon';
 import {BellIcon} from '../../assets/icons/BellIcon';
@@ -30,6 +28,8 @@ import {TrashIcon} from '../../assets/icons/TrashIcon';
 import {Pressable} from 'react-native';
 import {CheckRoundIcon} from '../../assets/icons/CheckRoundIcon';
 import {MessageRoundIcon} from '../../assets/icons/MessageRound';
+import {ThemeColors} from '@theme';
+import {useAppTheme} from '@hooks';
 
 export interface IconBase {
   size?: number;
