@@ -1,4 +1,5 @@
 import {ThemeColors} from '@theme';
+
 import {TouchableOpacityBoxProps} from '../Box/Box';
 
 export type ButtonPreset = 'primary' | 'outline';

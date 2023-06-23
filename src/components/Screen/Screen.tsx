@@ -1,8 +1,11 @@
 import {PropsWithChildren} from 'react';
-import {Box, TouchableOpacityBox, Icon, Text} from '@components';
 import {KeyboardAvoidingView, Platform} from 'react-native';
+
 import {useNavigation} from '@react-navigation/native';
+
+import {Box, TouchableOpacityBox, Icon, Text} from '@components';
 import {useAppSafeArea, useAppTheme} from '@hooks';
+
 import {ScrollViewContainer, ViewContainer} from './components/ScreenContainer';
 
 interface ScreenProps extends PropsWithChildren {

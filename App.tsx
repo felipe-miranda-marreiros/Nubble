@@ -1,6 +1,8 @@
 import React from 'react';
+
 import {ThemeProvider} from '@shopify/restyle';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+
 import {Routes} from '@routes';
 import {theme} from '@theme';
 
