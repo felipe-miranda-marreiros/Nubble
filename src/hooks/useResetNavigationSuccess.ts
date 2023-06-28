@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 
-import {RootStackParamList} from '@routes';
+import {AuthStackParamList} from '@routes';
 
 /**
  * Permite resetar o estado do Stack Navigator.
@@ -15,7 +15,7 @@ import {RootStackParamList} from '@routes';
 export function useResetNavigationSuccess() {
   const navigation = useNavigation();
 
-  const reset = (params: RootStackParamList['SuccessScreen']) => {
+  const reset = (params: AuthStackParamList['SuccessScreen']) => {
     navigation.reset({
       index: 1,
       routes: [
