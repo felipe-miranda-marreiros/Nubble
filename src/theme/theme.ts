@@ -37,6 +37,7 @@ export const theme = createTheme({
     successLight: palette.greenPrimaryLight,
 
     buttonPrimary: palette.greenPrimary,
+    marked: palette.carrotSecondary,
   },
   spacing: {
     s4: 4,

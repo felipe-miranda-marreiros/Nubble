@@ -7,3 +7,4 @@ export * from './Form/FormTextInput';
 export * from './Icon/Icon';
 export * from './Screen/Screen';
 export * from './TextInput/TextInput';
+export * from './PostItem/PostItem';
