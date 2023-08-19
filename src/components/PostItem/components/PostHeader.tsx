@@ -1,18 +1,15 @@
-import {Image} from 'react-native';
-
 import {Post} from '@domain';
 
 import {Box, Text} from '@components';
+
+import {ProfileAvatar} from '../../ProfileAvatar/ProfileAvatar';
 
 type Props = Pick<Post, 'author'>;
 
 export function PostHeader({author}: Props) {
   return (
     <Box mb="s16" flexDirection="row" alignItems="center">
-      <Image
-        source={{uri: author.profileURL}}
-        style={{width: 32, height: 32, borderRadius: 14}}
-      />
+      <ProfileAvatar imageUrl={author.profileURL} />
       <Text marginLeft="s12" semiBold preset="paragraphMedium">
         {author.userName}
       </Text>

@@ -8,3 +8,5 @@ export * from './Icon/Icon';
 export * from './Screen/Screen';
 export * from './TextInput/TextInput';
 export * from './PostItem/PostItem';
+export * from './ProfileAvatar/ProfileAvatar';
+export * from './TextMessage/TextMessage';

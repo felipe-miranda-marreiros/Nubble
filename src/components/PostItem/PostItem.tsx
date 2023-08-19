@@ -24,6 +24,7 @@ export function PostItem({post}: PostItemProps) {
       <PostBottom
         author={post.author}
         commentCount={post.commentCount}
+        id={post.id}
         text="This is my first post!"
       />
     </Box>
