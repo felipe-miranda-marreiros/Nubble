@@ -10,9 +10,7 @@ import {
   forgotPasswordSchema,
 } from './forgotPasswordSchema';
 
-export function ForgotPasswordScreen({
-  navigation,
-}: AuthScreenProps<'ForgotPasswordScreen'>) {
+export function ForgotPasswordScreen({}: AuthScreenProps<'ForgotPasswordScreen'>) {
   const {handleSubmit, control, formState} = useForm<ForgotPasswordFormType>({
     defaultValues: {
       email: '',

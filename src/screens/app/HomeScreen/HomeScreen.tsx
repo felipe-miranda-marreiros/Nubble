@@ -11,14 +11,13 @@ import {Post, usePostLis} from '@domain';
 import {useScrollToTop} from '@react-navigation/native';
 
 import {PostItem, Screen} from '@components';
-import {AppTabScreenProps} from '@routes';
 
 import {HomeEmpty} from './components/HomeEmpty';
 import {HomeHeader} from './components/HomeHeader';
 
-export function HomeScreen({navigation}: AppTabScreenProps<'HomeScreen'>) {
+export function HomeScreen() {
   const {
-    error,
+    isError,
     isLoading,
     list: postList,
     refresh,
@@ -48,7 +47,7 @@ export function HomeScreen({navigation}: AppTabScreenProps<'HomeScreen'>) {
         contentContainerStyle={{flex: postList.length === 0 ? 1 : undefined}}
         ListHeaderComponent={<HomeHeader />}
         ListEmptyComponent={
-          <HomeEmpty refetch={refresh} loading={isLoading} error={error} />
+          <HomeEmpty refetch={refresh} loading={isLoading} error={isError} />
         }
       />
     </Screen>

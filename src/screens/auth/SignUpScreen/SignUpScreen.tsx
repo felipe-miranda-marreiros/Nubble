@@ -13,7 +13,7 @@ import {useResetNavigationSuccess} from '@hooks';
 
 import {SignUpFormType, signUpSchema} from './signUpSchema';
 
-export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
+export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
   const {handleSubmit, control, formState} = useForm<SignUpFormType>({
     defaultValues: {
       email: '',

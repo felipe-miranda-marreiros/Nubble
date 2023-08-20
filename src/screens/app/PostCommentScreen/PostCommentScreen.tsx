@@ -24,6 +24,7 @@ export function PostCommentScreen({
   function renderItem({item}: ListRenderItemInfo<PostComment>) {
     return (
       <PostCommentItem
+        postId={postId}
         onRemoveComment={refresh}
         postComment={item}
         postAuthorId={postAuthorId}
@@ -42,12 +43,12 @@ export function PostCommentScreen({
           showsVerticalScrollIndicator={false}
           ListFooterComponent={
             <PostCommentBottom
-              hasNextPage={hasNextPage}
+              hasNextPage={!!hasNextPage}
               fetchNextPage={fetchNextPage}
             />
           }
         />
-        <PostCommentTextMessage onAddComment={refresh} postId={postId} />
+        <PostCommentTextMessage postId={postId} />
       </Box>
     </Screen>
   );

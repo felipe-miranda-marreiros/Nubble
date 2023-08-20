@@ -1,64 +1,48 @@
 import {useEffect, useState} from 'react';
 
+import {useInfiniteQuery} from '@tanstack/react-query';
 import {Page} from '@types';
 
+export interface UsePaginatedList<TData> {
+  list: TData[];
+  isError: boolean;
+  isLoading: boolean;
+  hasNextPage: boolean | undefined;
+  refresh: () => void;
+  fetchNextPage: () => void;
+}
+
 export function usePaginatedList<Data>(
+  queryKey: readonly unknown[],
   getList: (page: number) => Promise<Page<Data>>,
-) {
+): UsePaginatedList<Data> {
   const [list, setList] = useState<Data[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<boolean | null>(null);
-  const [page, setPage] = useState(1);
-  const [hasNextPage, setHasNextPage] = useState(true);
 
-  const fetchInitialData = async () => {
-    try {
-      setError(null);
-      setIsLoading(true);
-      const {data, meta} = await getList(1);
-      setList(data);
-      if (meta.hasNextPage) {
-        setPage(2);
-      } else {
-        setHasNextPage(false);
-      }
-    } catch (e) {
-      setError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  async function fetchNextPage() {
-    if (isLoading || !hasNextPage) {
-      return;
-    }
-    try {
-      setIsLoading(true);
-      const {data, meta} = await getList(page);
-      setList(prevState => [...prevState, ...data]);
-      if (meta.hasNextPage) {
-        setPage(prev => prev + 1);
-      } else {
-        setHasNextPage(false);
-      }
-    } catch (e) {
-      setError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const {data, isError, isLoading, refetch, hasNextPage, fetchNextPage} =
+    useInfiniteQuery({
+      queryKey,
+      queryFn: ({pageParam = 1}) => getList(pageParam),
+      getNextPageParam: ({meta}) => {
+        if (meta.hasNextPage) {
+          return meta.currentPage + 1;
+        }
+      },
+    });
 
   useEffect(() => {
-    fetchInitialData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (data) {
+      const newList = data.pages.reduce<Data[]>((prev, curr) => {
+        return [...prev, ...curr.data];
+      }, []);
+      setList(newList);
+    }
+  }, [data]);
 
   return {
     list,
     isLoading,
-    error,
-    refresh: fetchInitialData,
+    isError,
+    refresh: refetch,
     fetchNextPage,
     hasNextPage,
   };

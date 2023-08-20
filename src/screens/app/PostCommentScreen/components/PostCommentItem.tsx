@@ -6,6 +6,7 @@ import {useToastService} from '@services';
 import {Box, ProfileAvatar, Text} from '@components';
 
 interface Props {
+  postId: number;
   postComment: PostComment;
   onRemoveComment: () => void;
   userId: number;
@@ -16,9 +17,10 @@ export function PostCommentItem({
   postComment,
   postAuthorId,
   userId,
+  postId,
   onRemoveComment,
 }: Props) {
-  const {mutate} = usePostCommentRemove({
+  const {mutate} = usePostCommentRemove(postId, {
     onSuccess: () => {
       onRemoveComment();
       showToast({
