@@ -1,4 +1,3 @@
-import {PropsWithChildren} from 'react';
 import {KeyboardAvoidingView, Platform} from 'react-native';
 
 import {Box, BoxProps} from '@components';
@@ -7,7 +6,8 @@ import {useAppSafeArea, useAppTheme} from '@hooks';
 import {ScrollViewContainer, ViewContainer} from './components/ScreenContainer';
 import {ScreenHeader} from './components/ScreenHeader';
 
-export interface ScreenProps extends PropsWithChildren, BoxProps {
+export interface ScreenProps extends BoxProps {
+  children: React.ReactNode;
   canGoBack?: boolean;
   scrollable?: boolean;
   title?: string;
@@ -21,8 +21,8 @@ export function Screen({
   title,
   ...boxProps
 }: ScreenProps) {
+  const {bottom, top} = useAppSafeArea();
   const {colors} = useAppTheme();
-  const {top, bottom} = useAppSafeArea();
 
   const Container = scrollable ? ScrollViewContainer : ViewContainer;
 

@@ -24,6 +24,8 @@ export function PostCommentItem({
       showToast({
         message: 'Comentário deletado',
         position: 'bottom',
+        type: 'success',
+        duration: 4000,
       });
     },
   });
