@@ -1,4 +1,6 @@
+import {useAuthSignIn} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useToastService} from '@services';
 import {useForm} from 'react-hook-form';
 import {AuthScreenProps} from 'src/routes/navigationType';
 
@@ -13,6 +15,8 @@ import {
 import {LoginFormType, loginSchema} from './loginSchema';
 
 export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
+  const {showToast} = useToastService();
+
   const {control, handleSubmit, formState} = useForm<LoginFormType>({
     defaultValues: {
       email: '',
@@ -22,7 +26,9 @@ export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
     resolver: zodResolver(loginSchema),
   });
 
-  console.log(formState.isValid);
+  const {isLoading, signIn} = useAuthSignIn({
+    onError: message => showToast({message, type: 'error'}),
+  });
 
   const navigateToSignUpScreen = () => {
     navigation.navigate('SignUpScreen');
@@ -33,7 +39,7 @@ export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
   };
 
   const onSubmit = (data: LoginFormType) => {
-    console.log(data);
+    signIn(data);
   };
 
   return (
@@ -70,6 +76,7 @@ export function LoginScreen({navigation}: AuthScreenProps<'LoginScreen'>) {
         title="Entrar"
         mt="s48"
         onPress={handleSubmit(onSubmit)}
+        isLoading={isLoading}
       />
       <Button
         onPress={navigateToSignUpScreen}
