@@ -12,4 +12,8 @@ export * from './User';
 
 export * from './Auth/usecases/useAuthSignIn';
 export * from './Auth/usecases/useAuthSignOut';
+export * from './Auth/usecases/useAuthSignUp';
+export * from './Auth/usecases/useAuthIsUserNameAvailable';
+export * from './Auth/usecases/useAuthRequestNewPassword';
 export * from './Auth/authTypes';
+export * from './Auth/authService';

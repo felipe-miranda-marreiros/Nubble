@@ -1,6 +1,6 @@
 import {FlatList, ListRenderItemInfo} from 'react-native';
 
-import {PostComment, usePostCommentList, useUser} from '@domain';
+import {PostComment, usePostCommentList} from '@domain';
 
 import {Box, Screen} from '@components';
 import {useAppSafeArea} from '@hooks';
@@ -19,7 +19,6 @@ export function PostCommentScreen({
   const {list, hasNextPage, fetchNextPage, refresh} =
     usePostCommentList(postId);
   const {bottom} = useAppSafeArea();
-  const {id} = useUser();
 
   function renderItem({item}: ListRenderItemInfo<PostComment>) {
     return (
@@ -28,7 +27,7 @@ export function PostCommentScreen({
         onRemoveComment={refresh}
         postComment={item}
         postAuthorId={postAuthorId}
-        userId={id}
+        userId={0}
       />
     );
   }
