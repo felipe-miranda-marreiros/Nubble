@@ -1,4 +1,4 @@
-import {userAdapter} from './userAdaptert';
+import {userAdapter} from './userAdapter';
 import {userApi} from './userApi';
 import {User} from './userTypes';
 
