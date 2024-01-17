@@ -9,7 +9,7 @@ import {
 
 import {ButtonPreset, buttonPresets} from './buttonPresets';
 
-interface ButtonProps extends TouchableOpacityBoxProps {
+export interface ButtonProps extends TouchableOpacityBoxProps {
   title: string;
   isLoading?: boolean;
   preset?: ButtonPreset;
@@ -27,6 +27,7 @@ export function Button({
 
   return (
     <TouchableOpacityBox
+      testID="button"
       disabled={disabled || isLoading}
       alignItems="center"
       justifyContent="center"

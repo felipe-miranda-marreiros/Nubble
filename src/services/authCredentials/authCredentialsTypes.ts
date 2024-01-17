@@ -5,4 +5,5 @@ export interface AuthCredentialsService {
   saveCredentials: (authCredentials: AuthCredentials) => Promise<void>;
   removeCredentials: () => Promise<void>;
   isLoading: boolean;
+  userId: null | number;
 }

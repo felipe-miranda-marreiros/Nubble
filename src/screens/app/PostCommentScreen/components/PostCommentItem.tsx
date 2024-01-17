@@ -9,7 +9,7 @@ interface Props {
   postId: number;
   postComment: PostComment;
   onRemoveComment: () => void;
-  userId: number;
+  userId: number | null;
   postAuthorId: number;
 }
 
@@ -52,7 +52,10 @@ export function PostCommentItem({
   }
 
   return (
-    <Pressable disabled={!isAllowedToDelete} onLongPress={confirmRemove}>
+    <Pressable
+      testID="post-comment-id"
+      disabled={!isAllowedToDelete}
+      onLongPress={confirmRemove}>
       <Box flexDirection="row" alignItems="center" mb="s16">
         <ProfileAvatar imageUrl={postComment.author.profileURL} />
         <Box ml="s12" flex={1}>

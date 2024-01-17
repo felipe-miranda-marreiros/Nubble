@@ -5,7 +5,7 @@ import {MetaDataPageApi} from './apiTypes';
 function toMetaDataPage(meta: MetaDataPageApi): MetaDataPage {
   return {
     total: meta.total,
-    perPpage: meta.per_page,
+    perPage: meta.per_page,
     currentPage: meta.current_page,
     lastPage: meta.last_page,
     firstPage: meta.first_page,

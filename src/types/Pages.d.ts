@@ -2,7 +2,7 @@ export interface MetaDataPage {
   currentPage: number;
   firstPage: number;
   lastPage: number;
-  perPpage: number;
+  perPage: number;
   total: number;
   hasNextPage: boolean;
   hasPreviousPage: boolean;
