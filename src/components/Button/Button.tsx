@@ -37,9 +37,13 @@ export function Button({
       {...buttonPreset.container}
       {...touchableOpacityBoxProps}>
       {isLoading ? (
-        <ActivityIndicator color={buttonPreset.content} />
+        <ActivityIndicator color={buttonPreset.content.color} />
       ) : (
-        <Text color={buttonPreset.content} preset="paragraphMedium" bold>
+        <Text
+          color={buttonPreset.content.color}
+          preset="paragraphMedium"
+          bold
+          {...buttonPreset.content.textProps}>
           {title}
         </Text>
       )}

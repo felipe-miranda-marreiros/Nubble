@@ -12,15 +12,23 @@ export interface UsePaginatedList<TData> {
   fetchNextPage: () => void;
 }
 
+interface PaginatedListOptions {
+  enabled?: boolean;
+  staleTime?: number;
+}
+
 export function usePaginatedList<Data>(
   queryKey: readonly unknown[],
   getList: (page: number) => Promise<Page<Data>>,
+  options?: PaginatedListOptions,
 ): UsePaginatedList<Data> {
   const [list, setList] = useState<Data[]>([]);
 
   const {data, isError, isLoading, refetch, hasNextPage, fetchNextPage} =
     useInfiniteQuery({
       queryKey,
+      enabled: options?.enabled,
+      staleTime: options?.staleTime,
       queryFn: ({pageParam = 1}) => getList(pageParam),
       getNextPageParam: ({meta}) => {
         if (meta.hasNextPage) {

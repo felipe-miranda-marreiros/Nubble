@@ -8,9 +8,11 @@ import {ScreenHeader} from './components/ScreenHeader';
 
 export interface ScreenProps extends BoxProps {
   children: React.ReactNode;
+  HeaderComponent?: React.ReactNode;
   canGoBack?: boolean;
   scrollable?: boolean;
   title?: string;
+  noPaddingHorizontal?: boolean;
 }
 
 export function Screen({
@@ -19,6 +21,8 @@ export function Screen({
   scrollable = false,
   style,
   title,
+  HeaderComponent,
+  noPaddingHorizontal = false,
   ...boxProps
 }: ScreenProps) {
   const {bottom, top} = useAppSafeArea();
@@ -32,10 +36,15 @@ export function Screen({
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Container backgroundColor={colors.background}>
         <Box
-          paddingHorizontal="s24"
+          paddingHorizontal={noPaddingHorizontal ? undefined : 's24'}
           style={[{paddingTop: top, paddingBottom: bottom}, style]}
           {...boxProps}>
-          <ScreenHeader canGoBack={canGoBack} title={title} />
+          <ScreenHeader
+            paddingHorizontal={noPaddingHorizontal ? 's24' : undefined}
+            HeaderComponent={HeaderComponent}
+            canGoBack={canGoBack}
+            title={title}
+          />
           {children}
         </Box>
       </Container>
