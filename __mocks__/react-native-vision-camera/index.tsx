@@ -5,3 +5,4 @@ export function Camera() {
 }
 
 export const useCameraDevice = jest.fn();
+export const useCameraFormat = jest.fn();
