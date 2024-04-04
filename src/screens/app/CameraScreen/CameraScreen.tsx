@@ -1,8 +1,14 @@
-import {useState} from 'react';
+import {useRef, useState} from 'react';
 import {Dimensions, StyleSheet} from 'react-native';
 
 import {useIsFocused} from '@react-navigation/native';
-import {Camera, useCameraDevice} from 'react-native-vision-camera';
+import {multimediaService} from '@services';
+import {
+  Camera,
+  Templates,
+  useCameraDevice,
+  useCameraFormat,
+} from 'react-native-vision-camera';
 
 import {Box, Icon, PermissionManager} from '@components';
 import {useAppSafeArea, useAppState} from '@hooks';
@@ -14,14 +20,35 @@ const CONTROL_HEIGHT =
 
 export function CameraScreen({navigation}: AppScreenProps<'CameraScreen'>) {
   const [flashOn, setFlashOn] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+
   const {top} = useAppSafeArea();
+
   const device = useCameraDevice('back');
+  const format = useCameraFormat(device, Templates.Instagram);
+  const camera = useRef<Camera>(null);
+
   const isFocused = useIsFocused();
   const appState = useAppState();
   const isActive = appState === 'active' && isFocused;
 
   function toggleFlash() {
     setFlashOn(prevState => !prevState);
+  }
+
+  async function takePhoto() {
+    if (!camera.current) {
+      return;
+    }
+
+    const photo = await camera.current.takePhoto({
+      flash: flashOn ? 'on' : 'off',
+      qualityPrioritization: 'speed',
+    });
+
+    navigation.navigate('PublishPostScreen', {
+      imageUri: multimediaService.prepareImageUri(photo.path),
+    });
   }
 
   return (
@@ -32,9 +59,13 @@ export function CameraScreen({navigation}: AppScreenProps<'CameraScreen'>) {
         <Box backgroundColor="grayWhite" style={StyleSheet.absoluteFill} />
         {device !== undefined && (
           <Camera
+            ref={camera}
             style={StyleSheet.absoluteFill}
             device={device}
             isActive={isActive}
+            format={format}
+            photo
+            onInitialized={() => setIsReady(true)}
           />
         )}
         <Box flex={1} justifyContent="space-between">
@@ -65,7 +96,14 @@ export function CameraScreen({navigation}: AppScreenProps<'CameraScreen'>) {
             height={CONTROL_HEIGHT}
             alignItems="center"
             justifyContent="center">
-            <Icon size={80} color="grayWhite" name="cameraClick" />
+            {isReady && (
+              <Icon
+                onPress={takePhoto}
+                size={80}
+                color="grayWhite"
+                name="cameraClick"
+              />
+            )}
           </Box>
         </Box>
       </Box>
