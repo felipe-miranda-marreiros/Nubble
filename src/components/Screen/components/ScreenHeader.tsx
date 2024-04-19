@@ -40,7 +40,7 @@ export function ScreenHeader({
           testID="screen-back-button"
           onPress={navigate.goBack}
           flexDirection="row"
-          mr="s10"
+          mr={showBackLabel ? 's10' : undefined}
           alignItems="center">
           <Icon name="arrowLeft" color="primary" />
           {showBackLabel && (

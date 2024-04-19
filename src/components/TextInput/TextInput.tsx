@@ -53,7 +53,10 @@ export function TextInput({
             {label}
           </Text>
         )}
-        <Box {...$textInputContainer} {...containerProps}>
+        <Box
+          {...$textInputContainer}
+          {...containerProps}
+          backgroundColor="grayWhite">
           {leftComponent && (
             <Box mr="s16" justifyContent="center">
               {leftComponent}
@@ -86,7 +89,7 @@ export const $textInputStyle: TextStyle = {
   flexGrow: 1,
   flexShrink: 1,
   padding: 0,
-  color: theme.colors.backgroundContrast,
+  color: theme.colors.grayBlack,
   fontFamily: $fontFamily.regular,
   ...$fontSizes.paragraphMedium,
 };

@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {
   CameraScreen,
+  DarkModeScreen,
   PostCommentScreen,
   ProfileScreen,
   PublishPostScreen,
@@ -27,6 +28,7 @@ export type AppStackParamList = {
     imageUri: string;
   };
   CameraScreen: undefined;
+  DarkModeScreen: undefined;
 };
 
 interface Props {
@@ -50,6 +52,7 @@ export function AppStack({initialRouteName = 'AppTabNavigator'}: Props) {
       <Stack.Screen name="SearchScreen" component={SearchScreen} />
       <Stack.Screen name="PublishPostScreen" component={PublishPostScreen} />
       <Stack.Screen name="CameraScreen" component={CameraScreen} />
+      <Stack.Screen name="DarkModeScreen" component={DarkModeScreen} />
     </Stack.Navigator>
   );
 }
