@@ -17,6 +17,18 @@ jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: jest.fn(mockSafeAreaContext.useSafeAreaInsets),
 }));
 
+jest.mock('react-native-bootsplash', () => {
+  return {
+    hide: jest.fn().mockResolvedValue(true),
+    isVisible: jest.fn().mockResolvedValue(false),
+    useHideAnimation: jest.fn().mockReturnValue({
+      container: {},
+      logo: {source: 0},
+      brand: {source: 0},
+    }),
+  };
+});
+
 jest.mock('@react-native-camera-roll/camera-roll', () => ({
   CameraRoll: {
     getPhotos: jest.fn(async () => ({

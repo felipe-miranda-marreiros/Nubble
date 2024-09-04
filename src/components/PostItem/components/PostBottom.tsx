@@ -3,10 +3,18 @@ import {useNavigation} from '@react-navigation/native';
 
 import {Box, Text} from '@components';
 
-type Props = Pick<Post, 'author' | 'text' | 'commentCount' | 'id'>;
+type Props = Pick<Post, 'author' | 'text' | 'commentCount' | 'id'> & {
+  hideCommentAction?: boolean;
+};
 
-export function PostBottom({author, commentCount, text, id}: Props) {
-  const commentText = getCommentText(commentCount);
+export function PostBottom({
+  author,
+  hideCommentAction,
+  commentCount,
+  text,
+  id,
+}: Props) {
+  const commentText = hideCommentAction ? null : getCommentText(commentCount);
 
   const navigation = useNavigation();
 

@@ -16,3 +16,4 @@ export * from './Auth/usecases/useAuthIsUserNameAvailable';
 export * from './Auth/usecases/useAuthRequestNewPassword';
 export * from './Auth/authTypes';
 export * from './Auth/authService';
+export * from './PostReaction';

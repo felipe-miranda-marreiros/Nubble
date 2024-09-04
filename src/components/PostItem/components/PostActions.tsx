@@ -1,52 +1,64 @@
-import {Post} from '@domain';
+import {Post, useReactToPost} from '@domain';
+import {QueryKeys} from '@infra';
+import {useNavigation} from '@react-navigation/native';
 
 import {Box, Icon, IconProps, Text, TouchableOpacityBox} from '@components';
 
-type Props = Pick<Post, 'commentCount' | 'favoriteCount' | 'reactionCount'>;
+type Props = {
+  post: Post;
+  hideCommentAction?: boolean;
+};
 
-export function PostActions({
-  commentCount,
-  favoriteCount,
-  reactionCount,
-}: Props) {
-  const likePost = () => {
-    // TODO
-  };
+export function PostActions({post, hideCommentAction}: Props) {
+  const navigate = useNavigation();
+  const likeReaction = useReactToPost({
+    post,
+    postReactionType: 'like',
+    queryKeys: [QueryKeys.FavoriteList],
+  });
+  const favoriteReaction = useReactToPost({
+    post,
+    postReactionType: 'favorite',
+    queryKeys: [QueryKeys.FavoriteList],
+  });
+
   const navigateToCommment = () => {
-    // TODO
-  };
-  const favoritePost = () => {
-    // TODO
+    navigate.navigate('PostCommentScreen', {
+      postId: post.id,
+      postAuthorId: post.author.id,
+    });
   };
 
   return (
     <Box mt="s16" flexDirection="row">
       <Item
-        marked
-        onPress={likePost}
+        onPress={likeReaction.reactToPost}
+        text={likeReaction.reactionCount}
+        marked={likeReaction.hasReacted}
         icon={{
           default: 'heart',
           marked: 'heartFill',
         }}
-        text={reactionCount}
       />
       <Item
+        disabled={hideCommentAction}
         marked={false}
         onPress={navigateToCommment}
         icon={{
           default: 'comment',
           marked: 'comment',
         }}
-        text={commentCount}
+        text={post.commentCount}
       />
       <Item
-        marked={false}
-        onPress={favoritePost}
+        disabled={hideCommentAction}
+        marked={favoriteReaction.hasReacted}
+        text={favoriteReaction.reactionCount}
+        onPress={favoriteReaction.reactToPost}
         icon={{
           default: 'bookmark',
           marked: 'bookmarkFill',
         }}
-        text={favoriteCount}
       />
     </Box>
   );
@@ -60,13 +72,15 @@ interface ItemProps {
   };
   marked: boolean;
   text: number;
+  disabled?: boolean;
 }
 
-function Item({onPress, icon, text, marked}: ItemProps) {
+function Item({onPress, icon, text, marked, disabled}: ItemProps) {
   return (
     <TouchableOpacityBox
       flexDirection="row"
       alignItems="center"
+      disabled={disabled}
       onPress={onPress}
       mr="s24">
       <Icon

@@ -6,4 +6,6 @@ export enum QueryKeys {
   isEmailAvailable = 'isEmailAvailable',
   UserList = 'UserList',
   CameraRollList = 'CameraRollList',
+  FavoriteList = 'FavoriteList',
+  PostGetById = 'PostGetById',
 }

@@ -1,54 +1,26 @@
-import {useRef} from 'react';
-import {
-  FlatList,
-  ListRenderItemInfo,
-  RefreshControl,
-  StyleProp,
-  ViewStyle,
-} from 'react-native';
+import {ListRenderItemInfo, StyleProp, ViewStyle} from 'react-native';
 
-import {Post, usePostLis} from '@domain';
-import {useScrollToTop} from '@react-navigation/native';
+import {Post, postService} from '@domain';
+import {QueryKeys} from '@infra';
 
-import {PostItem, Screen} from '@components';
+import {InfinityScrollList, PostItem, Screen} from '@components';
 
-import {HomeEmpty} from './components/HomeEmpty';
 import {HomeHeader} from './components/HomeHeader';
 
 export function HomeScreen() {
-  const {
-    isError,
-    isLoading,
-    list: postList,
-    refresh,
-    fetchNextPage,
-  } = usePostLis();
-  const flatListRef = useRef<FlatList<Post>>(null);
-  useScrollToTop(flatListRef);
-
   function renderItem({item}: ListRenderItemInfo<Post>) {
     return <PostItem post={item} />;
   }
 
   return (
     <Screen style={$screen}>
-      <FlatList
-        ref={flatListRef}
-        data={postList}
-        keyExtractor={item => item.id.toString()}
+      <InfinityScrollList
+        queryKey={QueryKeys.PostList}
+        getList={postService.getList}
         renderItem={renderItem}
-        onEndReached={fetchNextPage}
-        refreshControl={
-          <RefreshControl refreshing={isLoading} onRefresh={refresh} />
-        }
-        refreshing={isLoading}
-        onEndReachedThreshold={0.1}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{flex: postList.length === 0 ? 1 : undefined}}
-        ListHeaderComponent={<HomeHeader />}
-        ListEmptyComponent={
-          <HomeEmpty refetch={refresh} loading={isLoading} error={isError} />
-        }
+        flatListProps={{
+          ListHeaderComponent: HomeHeader,
+        }}
       />
     </Screen>
   );
