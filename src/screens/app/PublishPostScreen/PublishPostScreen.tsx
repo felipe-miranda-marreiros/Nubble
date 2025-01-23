@@ -16,7 +16,7 @@ export function PublishPostScreen({
   const imageUri = route.params.imageUri;
 
   const {showToast} = useToastService();
-  const {createPost, isLoading} = usePostCreate({
+  const {createPost, isPending} = usePostCreate({
     onSuccess: () => {
       navigation.navigate('AppTabNavigator', {
         screen: 'HomeScreen',
@@ -56,8 +56,8 @@ export function PublishPostScreen({
       />
       <Button
         onPress={publishPost}
-        isLoading={isLoading}
-        disabled={isLoading || description.length < 1}
+        isLoading={isPending}
+        disabled={isPending || description.length < 1}
         mt="s56"
         title="Publicar post"
       />
