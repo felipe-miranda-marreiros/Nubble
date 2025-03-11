@@ -1,5 +1,5 @@
 import {create} from 'zustand';
-import {persist} from 'zustand/middleware';
+import {createJSONStorage, persist} from 'zustand/middleware';
 
 import {storage} from '../storage';
 
@@ -32,7 +32,7 @@ const useSettingsStore = create<SettingsStore>()(
     }),
     {
       name: '@Settings',
-      storage: storage,
+      storage: createJSONStorage(() => storage),
     },
   ),
 );

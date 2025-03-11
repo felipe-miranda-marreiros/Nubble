@@ -10,11 +10,7 @@ import {useAppColorScheme} from '@hooks';
 import {Routes} from '@routes';
 
 import {AuthCredentialsProvider} from './src/services/authCredentials/Providers/AuthCredentialsProvider';
-import {MMKVStorage} from './src/services/storage';
-import {initializeStorage} from './src/services/storage/storage';
 import {darkTheme, theme} from './src/theme/theme';
-
-initializeStorage(MMKVStorage);
 
 const queryClient = new QueryClient();
 

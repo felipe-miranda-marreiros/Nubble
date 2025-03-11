@@ -1,9 +1,6 @@
 module.exports = {
   root: true,
-  extends: [
-    '@react-native-community',
-    'plugin:@tanstack/eslint-plugin-query/recommended',
-  ],
+  extends: ['@react-native', '@tanstack/query'],
   plugins: ['import', '@tanstack/query'],
   overrides: [
     {
@@ -51,6 +48,8 @@ module.exports = {
     'react/react-in-jsx-scope': 0,
     'react-native/no-inline-styles': 0,
     '@tanstack/query/exhaustive-deps': 'error',
+    '@tanstack/query/no-deprecated-options': 'error',
     '@tanstack/query/prefer-query-object-syntax': 'error',
+    '@tanstack/query/stable-query-client': 'error',
   },
 };
