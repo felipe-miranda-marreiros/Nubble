@@ -78,3 +78,4 @@ yarn-error.log
 .expo
 dist/
 web-build/
+android/google-service-account.json

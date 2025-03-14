@@ -1,0 +1,87 @@
+name: Build Staging Version
+
+# Podemos criar variáveis de ambiente locais que podem ser
+# referenciados depois.
+env:
+  AAB_PATH: android/app/build/outputs/bundle/release/app-release.aab
+
+# Esse workflow será ativado manualmente
+on:
+  workflow_dispatch:
+
+jobs:
+  # Podemos usar outros workflows antes de iniciar esse job.
+  run-checks:
+    uses: ./.github/workflows/pull-request-checks.yml
+
+  build-android:
+    # needs significa que, para iniciar esse job, é necessário que o run-checks seja concluído
+    # com sucesso.
+    needs: run-checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # defatuls significa que podemos, por exemplo, determinar qual terminal o ubuntu vai utilizar
+    # e qual diretório podemos deixar como padrão.
+    defaults:
+      run:
+        shell: bash
+        # Como esse workflow é para o Android, vamos deixar como padrão a pasta android
+        # onde todos os comandos serão executados.
+        working-directory: ./android
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.Js - 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Java - 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+
+      - name: Install Packages
+        run: npm install
+
+        # Fazendo decode do secrets do Github e transformando para pasta app/upload.jks
+        # mesma pasta que contém debug.keystore
+      - name: Decode Keystore
+        run: echo ${{secrets.ANDROID_KEY_BASE_64}} | base64 -d > app/upload.jks
+
+        # Precisamos desse comando para tornar o gradlew executável no Linux
+        # Isso garante que o gradlew tem permissão.
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+        # Fazendo build do AAB usando gradlew
+      - name: Build AAB
+        run: ./gradlew bundleRelease
+        # env significa que podemos injetar variáveis de ambiente no Linux.
+        # Ou seja, estamos pegando as secrets do Github e passando para o Linux.
+        # O nome de cada variável tem que ser a mesma estabelecida no android/app/build.gradle
+        env:
+          ANDROID_PASSWORD: ${{secrets.ANDROID_PASSWORD}}
+          ANDROID_KEY_ALIAS: ${{secrets.ANDROID_KEY_ALIAS}}
+          ANDROID_KEY_PASSWORD: ${{secrets.ANDROID_KEY_PASSWORD}}
+
+        # Fazendo decode do secrets do Github e transformando para android
+      - name: Decode Google Service Account
+        run: echo ${{secrets.ANDROID_ACCOUNT_BASE_64}} | base64 -d > google-service-account.json
+
+        # Usamos o lane criado no fastlane.
+        # Esse lane fazerá uploado para playstore.
+      - name: Upload AAB to Google Play
+        run: fastlane upload_internal
+
+        # Pegamos o AAB e fazemos upload para o Github
+      - name: Upload AAB to Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.aab
+          path: ${{env.AAB_PATH}}
+          # Quanto tempo o arquivo ficará disponível até ser apagado
+          # 30 dias
+          retention=days: 30
