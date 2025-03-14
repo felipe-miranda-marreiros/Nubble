@@ -8,7 +8,7 @@ import {Post} from '../postTypes';
 export function usePostCreate(options?: MutationOptions<Post>) {
   const queryClient = useQueryClient();
 
-  const {mutate, isPending, isError} = useMutation<
+  const {mutate, isLoading, isError} = useMutation<
     Post,
     unknown,
     {text: string; imageCover: ImageForUpload}
@@ -43,7 +43,7 @@ export function usePostCreate(options?: MutationOptions<Post>) {
 
   return {
     createPost,
-    isPending,
+    isPending: isLoading,
     isError,
   };
 }

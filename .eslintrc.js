@@ -1,6 +1,10 @@
 module.exports = {
   root: true,
-  extends: ['@react-native', '@tanstack/query'],
+  ignorePatterns: ['**/node_modules/**'],
+  extends: [
+    '@react-native',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
+  ],
   plugins: ['import', '@tanstack/query'],
   overrides: [
     {
@@ -39,17 +43,7 @@ module.exports = {
     },
   ],
   rules: {
-    'prettier/prettier': [
-      'error',
-      {
-        endOfLine: 'auto',
-      },
-    ],
     'react/react-in-jsx-scope': 0,
     'react-native/no-inline-styles': 0,
-    '@tanstack/query/exhaustive-deps': 'error',
-    '@tanstack/query/no-deprecated-options': 'error',
-    '@tanstack/query/prefer-query-object-syntax': 'error',
-    '@tanstack/query/stable-query-client': 'error',
   },
 };

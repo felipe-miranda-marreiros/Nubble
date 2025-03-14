@@ -43,7 +43,6 @@ export function CameraScreen({navigation}: AppScreenProps<'CameraScreen'>) {
 
     const photo = await camera.current.takePhoto({
       flash: flashOn ? 'on' : 'off',
-      qualityPrioritization: 'speed',
     });
 
     navigation.navigate('PublishPostScreen', {
