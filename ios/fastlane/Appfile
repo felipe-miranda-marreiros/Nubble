@@ -1,12 +1,64 @@
-# app_identifier("[[APP_IDENTIFIER]]") # The bundle identifier of your app
-# apple_id("[[APPLE_ID]]") # Your Apple Developer Portal username
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
 
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
 
-# For more information about the Appfile, see:
-#     https://docs.fastlane.tools/advanced/#appfile
+default_platform(:ios)
+skip_docs
 
-app_identifier("br.com.coffstack.nubble") # The bundle identifier of your app
-apple_id("contato@coffstack.com") # Your Apple Developer Portal username
+platform :ios do
+  before_all do
+    setup_ci if ENV['CI']
+  end
 
-itc_team_id("127037516") # App Store Connect Team ID
-team_id("CC9SW2CA32") # Developer Portal Team ID
+  desc "Update development provisioning profile"
+  lane :update_dev_profile do
+    match(type: "development", force_for_new_devices: true)
+  end
+
+  desc "Get development (Debug) certificate and provisioning profile"
+  lane :get_dev_cert do
+    match(type: "development", readonly: true)
+  end
+
+  desc "Get appstore (Release) certificate and provisioning profile"
+  lane :get_appstore_cert do
+    match(type: "appstore", readonly: true)
+  end
+
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+
+    api_key = app_store_connect_api_key(
+      key_id: ENV["APPLE_KEY_ID"],
+      issuer_id: ENV["APPLE_KEY_ISSUER_ID"],
+      key_content: ENV["APPLE_KEY_CONTENT"],
+      duration: 1200,
+      in_house: false
+    )
+
+    match(type: "appstore", readonly: true)
+
+    build_app(
+      workspace: "NubbleApp.xcworkspace", 
+      scheme: "NubbleApp",
+      export_options: {
+        provisioningProfiles: {
+          "br.com.coffstack.nubble" => "match AppStore br.com.coffstack.nubble"
+        }
+      }
+    )
+    
+    upload_to_testflight(api_key: api_key, skip_waiting_for_build_processing: true)
+  end
+end
