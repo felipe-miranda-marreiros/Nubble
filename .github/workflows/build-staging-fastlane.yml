@@ -84,4 +84,36 @@ jobs:
           path: ${{env.AAB_PATH}}
           # Quanto tempo o arquivo ficará disponível até ser apagado
           # 30 dias
-          retention=days: 30
+          retention-days: 30
+
+  build-ios:
+    needs: run-checks
+    runs-on: macos-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./ios
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Packages
+        run: npm i
+
+      - name: Install Cocoapods
+        run: sudo gem install cocoapods -v 1.15.2
+
+      - name: Install IOS dependecies
+        run: pod install
+
+      - name: Build and upload to TestFlight
+        run: fastlane best
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APPLE_KEY_ID: ${{ secrets.APPLE_KEY_ID }}
+          APPLE_KEY_ISSUER_ID: ${{ secrets.APPLE_KEY_ISSUER_ID }}
+          APPLE_KEY_CONTENT: ${{ secrets.APPLE_KEY_CONTENT }}
