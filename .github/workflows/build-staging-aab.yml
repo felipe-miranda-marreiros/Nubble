@@ -54,4 +54,4 @@ jobs:
         with:
           name: app-release.aab
           path: ${{env.AAB_PATH}}
-          retention=days: 30
+          retention-days: 30
