@@ -1,4 +1,5 @@
 import {PostReaction, PostReactionAPI} from '../PostReaction';
+import {UserAPI} from '../User';
 
 export interface Post {
   id: number;
@@ -30,16 +31,7 @@ export interface PostAPI {
   status: string;
   text: string;
   updated_at: string;
-  user: {
-    email: string;
-    first_name: string;
-    full_name: string;
-    id: number;
-    is_online: number;
-    last_name: string;
-    profile_url: string;
-    username: string;
-  };
+  user: UserAPI;
   user_id: number;
   reactions: Pick<PostReactionAPI, 'emoji_type' | 'post_id'>[];
 }

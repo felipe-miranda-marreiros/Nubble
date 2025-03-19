@@ -6,8 +6,12 @@ import {postAdapter} from './postAdapter';
 import {postApi} from './postApi';
 import {Post} from './postTypes';
 
-async function getList(page: number): Promise<Page<Post>> {
-  const postPageAPI = await postApi.getList({page});
+async function getList(page: number, userId?: number): Promise<Page<Post>> {
+  const postPageAPI = await postApi.getList({
+    page,
+    user_id: userId,
+    per_page: 10,
+  });
 
   return apiAdapter.toPageModel(postPageAPI, postAdapter.toPost);
 }

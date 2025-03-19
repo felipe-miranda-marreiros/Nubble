@@ -9,6 +9,13 @@ async function getById(userId: string): Promise<UserAPI> {
   return response.data;
 }
 
+async function isFollowing(userId: string): Promise<{isFollowing: boolean}> {
+  const response = await api.get<{isFollowing: boolean}>(
+    `user/follow/is-following/${userId}`,
+  );
+  return response.data;
+}
+
 async function getList(search: string): Promise<PageAPI<UserAPI>> {
   const response = await api.get<PageAPI<UserAPI>>(`${USER_PATH}`, {
     params: {search},
@@ -19,4 +26,5 @@ async function getList(search: string): Promise<PageAPI<UserAPI>> {
 export const userApi = {
   getById,
   getList,
+  isFollowing,
 };

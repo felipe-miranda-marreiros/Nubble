@@ -3,7 +3,7 @@ import {ThemeColors} from '@theme';
 import {TouchableOpacityBoxProps} from '../Box/Box';
 import {TextProps} from '../Text/Text';
 
-export type ButtonPreset = 'primary' | 'outline' | 'ghost';
+export type ButtonPreset = 'primary' | 'outline' | 'ghost' | 'gray';
 
 interface ButtonUI {
   container: TouchableOpacityBoxProps;
@@ -53,6 +53,20 @@ export const buttonPresets: Record<
       content: {
         color: 'gray2',
       },
+    },
+  },
+  gray: {
+    default: {
+      container: {
+        backgroundColor: 'buttonGrayContainer',
+      },
+      content: {color: 'buttonGrayContent'},
+    },
+    disabled: {
+      container: {
+        backgroundColor: 'gray4',
+      },
+      content: {color: 'gray2'},
     },
   },
   ghost: {
