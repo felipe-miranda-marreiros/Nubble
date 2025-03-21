@@ -1,4 +1,5 @@
-import {useAuthSignUp} from '@domain';
+import {authService, useAuthSignUp} from '@domain';
+import {useAsyncValidation} from '@form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useForm} from 'react-hook-form';
 import {AuthScreenProps} from 'src/routes/navigationType';
@@ -15,7 +16,6 @@ import {useResetNavigationSuccess} from '@hooks';
 import {AuthStackParamList} from '@routes';
 
 import {SignUpSchema, signUpSchema} from './signUpSchema';
-import {useAsyncValidation} from './useAsyncValidation';
 
 const resetParam: AuthStackParamList['SuccessScreen'] = {
   title: 'Sua conta foi criada com sucesso!',
@@ -48,9 +48,20 @@ export function SignUpScreen({}: AuthScreenProps<'SignUpScreen'>) {
       mode: 'onChange',
     });
 
-  const {usernameValidation, emailValidation} = useAsyncValidation({
-    getFieldState,
+  const usernameValidation = useAsyncValidation({
     watch,
+    getFieldState,
+    fieldName: 'username',
+    errorMessage: 'username indisponível',
+    isAvailableFunc: authService.isUserNameAvailable,
+  });
+
+  const emailValidation = useAsyncValidation({
+    watch,
+    getFieldState,
+    fieldName: 'email',
+    errorMessage: 'email indisponível',
+    isAvailableFunc: authService.isEmailAvailable,
   });
 
   const {reset} = useResetNavigationSuccess();
