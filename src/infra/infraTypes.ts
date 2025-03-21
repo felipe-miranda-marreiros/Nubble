@@ -8,4 +8,5 @@ export enum QueryKeys {
   CameraRollList = 'CameraRollList',
   FavoriteList = 'FavoriteList',
   PostGetById = 'PostGetById',
+  AsyncValidation = 'AsyncValidation',
 }

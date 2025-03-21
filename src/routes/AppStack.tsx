@@ -33,9 +33,9 @@ export type AppStackParamList = {
   };
   CameraScreen: undefined;
   DarkModeScreen: undefined;
-  EditProfileScreen: undefined;
-  EditEmailScreen: undefined;
-  EditPasswordScreen: undefined;
+  EditProfileScreen: {userId: number};
+  EditEmailScreen: {userId: number};
+  EditPasswordScreen: {userId: number};
 };
 
 interface Props {
