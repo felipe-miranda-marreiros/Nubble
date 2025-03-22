@@ -9,4 +9,6 @@ export enum QueryKeys {
   FavoriteList = 'FavoriteList',
   PostGetById = 'PostGetById',
   AsyncValidation = 'AsyncValidation',
+  MyFollowingList = 'MyFollowingList',
+  MyFollowersList = 'MyFollowersList',
 }

@@ -18,3 +18,5 @@ export * from './Auth/authTypes';
 export * from './Auth/authService';
 export * from './PostReaction';
 export * from './Auth/usecases/useAuthUpdatePassword';
+
+export * from './Follow';

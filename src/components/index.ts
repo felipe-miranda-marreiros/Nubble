@@ -20,3 +20,4 @@ export * from './InfinityScrollList';
 export * from './ProfileTemplate/ProfileTemplate';
 export * from './BackButton/BackButton';
 export * from './InputButton/InputButton';
+export * from './UserListTemplate/UserListTemplate';
